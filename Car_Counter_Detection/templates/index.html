@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Counter</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: cyan;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffddca;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            background-color: rgb(46, 204, 224);
+            color: rgb(1 11 131);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #video-container {
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            height: 450px;
+            text-align: center;
+        }
+
+        #video-feed {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            
+        }
+
+        .buttons {
+            margin-bottom: 20px;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #start-button {
+            background-color: #28a745;
+            color: white;
+        }
+
+        #count-display {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #count {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .footer {
+              margin-top: 66px;
+              position: relative;
+              width: 100%;
+              background: #3586ff;
+              min-height: 100px;
+              /* padding: 20px 50px; */
+              display: flex;
+              align-items: center;
+              flex-direction: column;
+            }
+
+            .social-icon,
+            .menu {
+              position: relative;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              margin: 10px 0;
+              flex-wrap: wrap;
+            }
+
+            .social-icon__item,
+            .menu__item {
+              list-style: none;
+            }
+
+            .social-icon__link {
+              font-size: 2rem;
+              color: #fff;
+              margin: 0 10px;
+              display: inline-block;
+              transition: 0.5s;
+            }
+            .social-icon__link:hover {
+              transform: translateY(-10px);
+            }
+
+            .menu__link {
+              font-size: 1.2rem;
+              color: #fff;
+              margin: 0 10px;
+              display: inline-block;
+              transition: 0.5s;
+              text-decoration: none;
+              opacity: 0.75;
+              font-weight: 300;
+            }
+
+            .menu__link:hover {
+              opacity: 1;
+            }
+
+            .footer p {
+              color: #fff;
+              margin: 15px 0 10px 0;
+              font-size: 1rem;
+              font-weight: 300;
+            }
+
+            .wave {
+              position: absolute;
+              top: -100px;
+              left: 0;
+              width: 100%;
+              height: 100px;
+              background: url("https://i.ibb.co/wQZVxxk/wave.png");
+              background-size: 1000px 100px;
+            }
+
+            .wave#wave1 {
+              z-index: 1000;
+              opacity: 1;
+              bottom: 0;
+              animation: animateWaves 4s linear infinite;
+            }
+
+            .wave#wave2 {
+              z-index: 999;
+              opacity: 0.5;
+              bottom: 10px;
+              animation: animate 4s linear infinite !important;
+            }
+
+            .wave#wave3 {
+              z-index: 1000;
+              opacity: 0.2;
+              bottom: 15px;
+              animation: animateWaves 3s linear infinite;
+            }
+
+            .wave#wave4 {
+              z-index: 999;
+              opacity: 0.7;
+              bottom: 20px;
+              animation: animate 3s linear infinite;
+            }
+
+            @keyframes animateWaves {
+              0% {
+                background-position-x: 1000px;
+              }
+              100% {
+                background-positon-x: 0px;
+              }
+            }
+
+            @keyframes animate {
+              0% {
+                background-position-x: -1000px;
+              }
+              100% {
+                background-positon-x: 0px;
+              }
+            }
+            
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Car Detection And Tracking</h1>
+        <div id="video-container">
+            <img id="video-feed" src="{{ url_for('video_feed') }}" alt="Video of Vehicles">
+        </div>
+        <div class="buttons">
+            <button id="start-button" onclick="startStopVideo()">Start Video</button>
+        </div>
+        <div id="count-display">
+            <p>Total Cars Count: <span id="count">{{ count }}</span></p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="waves">
+          <div class="wave" id="wave1"></div>
+          <div class="wave" id="wave2"></div>
+          <div class="wave" id="wave3"></div>
+          <div class="wave" id="wave4"></div>
+        </div>
+        <ul class="social-icon">
+          
+          <li class="social-icon__item"><a class="social-icon__link" href="https://www.linkedin.com/in/ashis-baidya/">
+              <ion-icon name="logo-linkedin"></ion-icon>
+            </a></li>
+          </ul>
+        
+        <p>©2023 Ashis Baidya ❤❤ | All Rights Reserved</p>
+      </footer>
+      <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+      <script nomodule="" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+
+    <script>
+        var video = document.getElementById('video-feed');
+        var startButton = document.getElementById('start-button');
+        var countDisplay = document.getElementById('count');
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        socket.on('update_count', function (data) {
+        updateCarCount(data.count);
+        });
+
+        var isVideoPlaying = false;
+
+        function startStopVideo() {
+            if (!isVideoPlaying) {
+                video.src = "{{ url_for('video_feed') }}";
+                startButton.textContent = "Stop Video";
+            } else {
+                video.src = "";
+                startButton.textContent = "Start Video";
+            }
+            isVideoPlaying = !isVideoPlaying;
+        }
+
+        function updateCarCount(count) {
+            countDisplay.textContent = count;
+        }
+    </script>
+</body>
+</html>
